@@ -13,7 +13,7 @@ export default function GifList({ showColors, gifs }) {
             </thead>
             <tbody>
                 {
-                   gifs.results.map((gif, index) => {
+                   gifs.map((gif, index) => {
                     const style = index % 2 === 0 ? 'transparent' : '#464D59'
                     const backgroundColor = showColors ? style : 'transparent'
                     return (

@@ -13,8 +13,15 @@ function App({ params }) {
   })
 
   const [showColors, setShowColors] = useState(false)
+  const [sortBySourceTld, setSortBySourceTld] = useState(false)
 
   const toggleColors = () => setShowColors(!showColors)
+  const toggleSortBySource = () => setSortBySourceTld(prevState => !prevState)
+
+  const sortedGifs = sortBySourceTld ? gifs.results.sort((a, b) => {
+    return a.source_tld.localeCompare(b.source_tld)
+  })
+  : gifs.results // TODO: gifs are already sorted
   
   // Se ejecuta cada vez que se renderiza el componente
   // Peculiaridad del async/await
@@ -37,10 +44,11 @@ function App({ params }) {
     <div className="App">
       <section className="App-content">
         <button onClick={toggleColors}>toggleColors</button>
+        <button onClick={toggleSortBySource}>{sortBySourceTld ? 'sortBySource' : 'not sortBySourceTld'}</button>
 
         { gifs.isLoading ? 
           <h1>Cargando...</h1> : 
-          <GifList showColors={showColors} gifs={gifs} />
+          <GifList showColors={showColors} gifs={sortedGifs} />
         }
       </section>
     </div>
