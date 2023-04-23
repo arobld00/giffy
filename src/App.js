@@ -18,6 +18,7 @@ function App({ params }) {
     (async () => {
       try {
         setGifs(actualGifs => ({ isLoading: true, results: actualGifs.results }))
+        
         const gifs = await getGifs({ keyword })
         setGifs({ isLoading: false, results: gifs })
       } catch (ex) {

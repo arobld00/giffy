@@ -1,10 +1,14 @@
 import React from 'react'
 
-export default function Gif({ title, url }) {
+export default function Gif({ id, title, url }) {
     return (
-        <div>
-            <h4>{ title }</h4>
-            <img alt={ title } src={ url } />
-        </div>
+        <tr key={id}>
+            <td>
+                <img alt={title} src={url} />
+            </td>
+            <td>
+                {title}
+            </td>
+        </tr>
   )
 }
