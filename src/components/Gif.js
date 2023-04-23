@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Gif({ backgroundColor, id, title, url }) {
+export default function Gif({ backgroundColor, id, title, url, source_tld }) {
     return (
         <tr key={id} style={{ backgroundColor }}>
             <td>
@@ -8,6 +8,9 @@ export default function Gif({ backgroundColor, id, title, url }) {
             </td>
             <td>
                 {title}
+            </td>
+            <td>
+                {source_tld}
             </td>
         </tr>
     )

@@ -14,12 +14,13 @@ export default async function getGifs ({ keyword = 'morty' } = {}) {
     
     if (Array.isArray(data)) {
         const gifs = data.map((image) => {
-            const { images, id, title } = image
+            const { images, id, title, source_tld } = image
             const { url } = images.fixed_height_small
             return { 
                 title: title.split('GIF')[0],
                 url,
-                id
+                id,
+                source_tld
             }
         })
         return gifs

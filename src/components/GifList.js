@@ -8,6 +8,7 @@ export default function GifList({ showColors, gifs }) {
                 <tr>
                     <th>Gif</th>
                     <th>Title</th>
+                    <th>Source</th>
                 </tr>
             </thead>
             <tbody>
