@@ -1,7 +1,7 @@
 import React from 'react'
 import Gif from './Gif'
 
-export default function GifList({ gifs }) {
+export default function GifList({ showColors, gifs }) {
     return (
         <table width='100%'>
             <thead>
@@ -12,10 +12,13 @@ export default function GifList({ gifs }) {
             </thead>
             <tbody>
                 {
-                   gifs.results.map((gif) => {
+                   gifs.results.map((gif, index) => {
+                    const style = index % 2 === 0 ? 'transparent' : '#464D59'
+                    const backgroundColor = showColors ? style : 'transparent'
                     return (
                         <Gif 
                         key={ gif.id } // React necesita una key unica para cuando se elimina evita volver a renderizarlo desde el principio
+                        backgroundColor={ backgroundColor }
                         { ...gif }
                         />
                     )

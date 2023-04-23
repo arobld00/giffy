@@ -11,6 +11,10 @@ function App({ params }) {
     isLoading: false,
     results: [] 
   })
+
+  const [showColors, setShowColors] = useState(false)
+
+  const toggleColors = () => setShowColors(!showColors)
   
   // Se ejecuta cada vez que se renderiza el componente
   // Peculiaridad del async/await
@@ -32,9 +36,11 @@ function App({ params }) {
   return (
     <div className="App">
       <section className="App-content">
+        <button onClick={toggleColors}>toggleColors</button>
+
         { gifs.isLoading ? 
           <h1>Cargando...</h1> : 
-          <GifList gifs={gifs} />
+          <GifList showColors={showColors} gifs={gifs} />
         }
       </section>
     </div>

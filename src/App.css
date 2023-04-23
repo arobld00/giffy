@@ -13,6 +13,11 @@
   color: white;
 }
 
+table {
+  border:none;
+  border-collapse: collapse;
+}
+
 button {
   font-size: 24px;
 }
