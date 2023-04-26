@@ -22,6 +22,11 @@ function App({ params }) {
     return a.source_tld.localeCompare(b.source_tld)
   })
   : gifs.results
+
+  const handleRemove = (index) => {
+    const filteredGifs = gifs.results.filter((gif, gifIndex) => gifIndex !== index)
+    setGifs({ results: filteredGifs })
+  }
   
   // Se ejecuta cada vez que se renderiza el componente
   // Peculiaridad del async/await
@@ -42,13 +47,15 @@ function App({ params }) {
     
   return (
     <div className="App">
-      <section className="App-content">
+      <header className="Header-content">
         <button onClick={toggleColors}>toggleColors</button>
         <button onClick={toggleSortBySource}>{sortBySourceTld ? 'sortBySource' : 'not sortBySourceTld'}</button>
+      </header>
+      <section className="App-content">
 
         { gifs.isLoading ? 
           <h1>Cargando...</h1> : 
-          <GifList showColors={showColors} gifs={sortedGifs} />
+          <GifList deleteGifs={handleRemove} showColors={showColors} gifs={sortedGifs} />
         }
       </section>
     </div>

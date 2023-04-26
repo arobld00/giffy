@@ -1,9 +1,19 @@
 .App {
   text-align: center;
+  background-color: #282c34;
+}
+
+.Header-content {
+  display: flex;
+  flex-flow: row wrap;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  gap: 10px;
+  padding-top: 10px;
+  justify-content: center;
 }
 
 .App-content {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
