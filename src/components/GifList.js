@@ -21,6 +21,7 @@ export default function GifList({ showColors, gifs }) {
                         <Gif 
                         key={ gif.id } // React necesita una key unica para cuando se elimina evita volver a renderizarlo desde el principio
                         backgroundColor={ backgroundColor }
+                        index={ index }
                         { ...gif }
                         />
                     )
