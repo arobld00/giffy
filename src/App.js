@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState } from 'react'
 import './App.css'
 import getGifs from './services/getGifs'
 import GifList from './components/GifList'
@@ -23,13 +23,19 @@ function App({ params }) {
 	const toggleColors = () => setShowColors(!showColors)
 	const toggleSortBySource = () => setSortBySourceTld(prevState => !prevState)
 
-	const filteredGifs = typeof filterTitle === 'string' && filterTitle.length > 0
-		? gifs.results.filter(gif => gif.title.toLowerCase().includes(filterTitle.toLowerCase()))
-		: gifs.results
+	const filteredGifs = useMemo(() => {
+		console.log('filteredGifs')
+		return typeof filterTitle === 'string' && filterTitle.length > 0
+			? gifs.results.filter(gif => gif.title.toLowerCase().includes(filterTitle.toLowerCase()))
+			: gifs.results
+	}, [gifs, filterTitle])
 
-	const sortedGifs = sortBySourceTld ?
-		filteredGifs.toSorted((a, b) => a.source_tld.localeCompare(b.source_tld))
-		: filteredGifs
+	const sortedGifs = useMemo(() => {
+		console.log('sortedGifs')
+		return sortBySourceTld ?
+			filteredGifs.toSorted((a, b) => a.source_tld.localeCompare(b.source_tld))
+			: filteredGifs
+	}, [filteredGifs, sortBySourceTld])
 
 	const handleRemove = (id) => {
 		const filteredGifs = gifs.results.filter((gif) => gif.id !== id)
