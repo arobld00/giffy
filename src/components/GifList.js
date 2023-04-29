@@ -3,7 +3,7 @@ import Gif from './Gif'
 
 export default function GifList({ showColors, gifs }) {
   return (
-    <table width='100%'>
+    <table>
       <thead>
         <tr>
           <th>Gif</th>

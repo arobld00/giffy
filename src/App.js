@@ -57,8 +57,8 @@ function App({ params }) {
 
 	return (
 		<GifContext.Provider value={handleRemove}>
-			<div className="App">
-				<header className="Header-content">
+			<div>
+				<header>
 					<button onClick={toggleColors}>toggleColors</button>
 					<button onClick={toggleSortBySource}>{sortBySourceTld ? 'sortBySource' : 'not sortBySourceTld'}</button>
 					<button onClick={handleRestore}>restore</button>
@@ -66,7 +66,7 @@ function App({ params }) {
 						setFilterTitle(e.target.value)
 					}} />
 				</header>
-				<section className="App-content">
+				<section>
 
 					{gifs.isLoading ?
 						<h1>Cargando...</h1> :
