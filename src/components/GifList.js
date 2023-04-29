@@ -17,7 +17,7 @@ export default function GifList({ showColors, gifs }) {
           gifs.map((gif, index) => {
             const style = index % 2 === 0 ? 'transparent' : '#464D59'
             const backgroundColor = showColors ? style : 'transparent'
-            const props = { index, backgroundColor, ...gif }
+            const props = { backgroundColor, ...gif }
             return (
               <Gif
                 key={gif.id} // React necesita una key unica para cuando se elimina evita volver a renderizarlo desde el principio

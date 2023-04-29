@@ -31,8 +31,8 @@ function App({ params }) {
 		filteredGifs.toSorted((a, b) => a.source_tld.localeCompare(b.source_tld))
 		: filteredGifs
 
-	const handleRemove = (index) => {
-		const filteredGifs = sortedGifs.filter((gif, gifIndex) => gifIndex !== index)
+	const handleRemove = (id) => {
+		const filteredGifs = gifs.results.filter((gif) => gif.id !== id)
 		setGifs({ results: filteredGifs })
 	}
 

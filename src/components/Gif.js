@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { GifContext } from '../App'
 
-export default function Gif({ index, backgroundColor, id, title, url, source_tld }) {
+export default function Gif({ backgroundColor, id, title, url, source_tld }) {
 	const handleRemove = useContext(GifContext);
 	return (
 		<tr key={id} style={{ backgroundColor }}>
@@ -15,7 +15,7 @@ export default function Gif({ index, backgroundColor, id, title, url, source_tld
 				{source_tld}
 			</td>
 			<td>
-				<button onClick={() => { handleRemove(index) }}>Remove</button>
+				<button onClick={() => { handleRemove(id) }}>Remove</button>
 			</td>
 		</tr>
 	)
