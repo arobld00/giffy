@@ -13,21 +13,26 @@ function App({ params }) {
 		isLoading: false,
 		results: []
 	})
-	
+
 	const originalGifs = useRef([]) // guardar un valor que se mantenga entre renderizados, pero al cambiar no vuelve a renderizar el componente
 
 	const [showColors, setShowColors] = useState(false)
 	const [sortBySourceTld, setSortBySourceTld] = useState(false)
+	const [filterTitle, setFilterTitle] = useState('')
 
 	const toggleColors = () => setShowColors(!showColors)
 	const toggleSortBySource = () => setSortBySourceTld(prevState => !prevState)
 
-	const sortedGifs = sortBySourceTld ?
-		gifs.results.toSorted((a, b) => a.source_tld.localeCompare(b.source_tld))
+	const filteredGifs = typeof filterTitle === 'string' && filterTitle.length > 0
+		? gifs.results.filter(gif => gif.title.toLowerCase().includes(filterTitle.toLowerCase()))
 		: gifs.results
 
+	const sortedGifs = sortBySourceTld ?
+		filteredGifs.toSorted((a, b) => a.source_tld.localeCompare(b.source_tld))
+		: filteredGifs
+
 	const handleRemove = (index) => {
-		const filteredGifs = gifs.results.filter((gif, gifIndex) => gifIndex !== index)
+		const filteredGifs = sortedGifs.filter((gif, gifIndex) => gifIndex !== index)
 		setGifs({ results: filteredGifs })
 	}
 
@@ -57,6 +62,9 @@ function App({ params }) {
 					<button onClick={toggleColors}>toggleColors</button>
 					<button onClick={toggleSortBySource}>{sortBySourceTld ? 'sortBySource' : 'not sortBySourceTld'}</button>
 					<button onClick={handleRestore}>restore</button>
+					<input placeholder='Filter by tittle' onChange={(e) => {
+						setFilterTitle(e.target.value)
+					}} />
 				</header>
 				<section className="App-content">
 

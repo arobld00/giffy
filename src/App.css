@@ -24,10 +24,18 @@
 }
 
 table {
-  border:none;
+  border: none;
   border-collapse: collapse;
 }
 
 button {
   font-size: 24px;
+}
+
+input {
+  font-size: 24px;
+  border-radius: 6px;
+  line-height: 1.5;
+  padding: 5px 10px;
+  background: #dee1e2;
 }
