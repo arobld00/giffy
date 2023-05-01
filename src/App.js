@@ -5,6 +5,8 @@ import GifList from './components/GifList'
 
 export const GifContext = React.createContext('');
 
+export const SortBy = Object.freeze({ "NONE": 'none', "SOURCE": 'source', "TITLE": 'title' })
+
 function App({ params }) {
 	const { keyword } = params
 	// const [isLoading, setLoading] = useState(false)
@@ -17,11 +19,14 @@ function App({ params }) {
 	const originalGifs = useRef([]) // guardar un valor que se mantenga entre renderizados, pero al cambiar no vuelve a renderizar el componente
 
 	const [showColors, setShowColors] = useState(false)
-	const [sortBySourceTld, setSortBySourceTld] = useState(false)
+	const [sorting, setSorting] = useState(SortBy.NONE)
 	const [filterTitle, setFilterTitle] = useState('')
 
 	const toggleColors = () => setShowColors(!showColors)
-	const toggleSortBySource = () => setSortBySourceTld(prevState => !prevState)
+	const toggleSortBySource = () => {
+		const newSorting = sorting === SortBy.NONE ? SortBy.SOURCE : SortBy.NONE
+		setSorting(newSorting)
+	}
 
 	const filteredGifs = useMemo(() => {
 		console.log('filteredGifs')
@@ -32,10 +37,17 @@ function App({ params }) {
 
 	const sortedGifs = useMemo(() => {
 		console.log('sortedGifs')
-		return sortBySourceTld ?
-			filteredGifs.toSorted((a, b) => a.source_tld.localeCompare(b.source_tld))
-			: filteredGifs
-	}, [filteredGifs, sortBySourceTld])
+
+		if (sorting === SortBy.NONE) return filteredGifs
+
+		let sortedFn = (a, b) => a.source_tld.localeCompare(b.source_tld)
+
+		if (sorting === SortBy.TITLE) {
+			sortedFn = (a, b) => a.title.localeCompare(b.title)
+		}
+
+		return filteredGifs.toSorted(sortedFn)
+	}, [filteredGifs, sorting])
 
 	const handleRemove = (id) => {
 		const filteredGifs = gifs.results.filter((gif) => gif.id !== id)
@@ -43,6 +55,10 @@ function App({ params }) {
 	}
 
 	const handleRestore = () => setGifs({ results: originalGifs.current })
+
+	const handleSort = (sort) => {
+		setSorting(sort)
+	}
 
 	// Se ejecuta cada vez que se renderiza el componente
 	// Peculiaridad del async/await
@@ -66,7 +82,7 @@ function App({ params }) {
 			<div>
 				<header>
 					<button onClick={toggleColors}>toggleColors</button>
-					<button onClick={toggleSortBySource}>{sortBySourceTld ? 'sortBySource' : 'not sortBySourceTld'}</button>
+					<button onClick={toggleSortBySource}>{sorting === SortBy.SOURCE ? 'not sortBySource' : 'sortBySourceTld'}</button>
 					<button onClick={handleRestore}>restore</button>
 					<input placeholder='Filter by tittle' onChange={(e) => {
 						setFilterTitle(e.target.value)
@@ -76,7 +92,7 @@ function App({ params }) {
 
 					{gifs.isLoading ?
 						<h1>Cargando...</h1> :
-						<GifList showColors={showColors} gifs={sortedGifs} />
+						<GifList changeSorting={handleSort} showColors={showColors} gifs={sortedGifs} />
 					}
 				</section>
 			</div>

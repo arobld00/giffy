@@ -1,14 +1,15 @@
 import React from 'react'
 import Gif from './Gif'
+import { SortBy } from '../App'
 
-export default function GifList({ showColors, gifs }) {
+export default function GifList({ changeSorting, showColors, gifs }) {
   return (
     <table>
       <thead>
         <tr>
           <th>Gif</th>
-          <th>Title</th>
-          <th>Source</th>
+          <th className='pointer' onClick={() => changeSorting(SortBy.TITLE)}>Title</th>
+          <th className='pointer' onClick={() => changeSorting(SortBy.SOURCE)}>Source</th>
           <th>Action</th>
         </tr>
       </thead>
