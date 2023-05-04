@@ -1,3 +1,5 @@
+import { useGifs } from "../hooks/useGifs";
+
 const KEY = 'bSUN1U9OkKH88KxFlYYkv06soNfbozyQ'
 
 export default async function getGifs({ keyword = 'morty' } = {}) {
@@ -11,18 +13,9 @@ export default async function getGifs({ keyword = 'morty' } = {}) {
 
   const gifs = await response.json()
   const { data = [] } = gifs
+  const { gifs : mappedGifs } = useGifs({ data })
 
   if (Array.isArray(data)) {
-    const gifs = data.map((image) => {
-      const { images, id, title, source_tld } = image
-      const { url } = images.fixed_height_small
-      return {
-        title: title.split('GIF')[0],
-        url,
-        id,
-        source_tld
-      }
-    })
-    return gifs
+    return mappedGifs
   }
 }
