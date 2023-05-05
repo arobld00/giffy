@@ -1,27 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 export function useQuery() {
-	const [query, setQuery] = useState('')
-	const [error, setError] = useState(null)
+  const [query, setQuery] = useState('')
+  const [error, setError] = useState(null)
+  const isFirstRender = useRef(true)
 
-	useEffect(() => {
-		if (query === '') {
-			setError('Cannot search for an empty gif')
-			return
-		}
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = query === ''
+      return
+    }
 
-		if (query.match(/^\d+$/)) {
-			setError('Cannot search for a number')
-			return
-		}
+    if (query === '') {
+      setError('Cannot search for an empty gif')
+      return
+    }
 
-		if (query.length < 3) {
-			setError('Search must contain at least 3 characters')
-			return
-		}
+    if (query.match(/^\d+$/)) {
+      setError('Cannot search for a number')
+      return
+    }
 
-		setError(null)
-	}, [query])
+    if (query.length < 3) {
+      setError('Search must contain at least 3 characters')
+      return
+    }
 
-	return { query, setQuery, error }
+    setError(null)
+  }, [query])
+
+  return { query, setQuery, error }
 }
