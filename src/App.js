@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react'
+import { useQuery } from './hooks/useQuery'
 import './App.css'
 import getGifs from './services/getGifs'
 import GifList from './components/GifList'
@@ -21,6 +22,8 @@ function App({ params }) {
 	const [showColors, setShowColors] = useState(false)
 	const [sorting, setSorting] = useState(SortBy.NONE)
 	const [filterTitle, setFilterTitle] = useState('')
+
+	const { query, setQuery, error } = useQuery()
 
 	const toggleColors = () => setShowColors(!showColors)
 	const toggleSortBySource = () => {
@@ -60,6 +63,17 @@ function App({ params }) {
 		setSorting(sort)
 	}
 
+	const handleSubmit = (event) => {
+		event.preventDefault()
+		console.log({ query })
+	}
+
+	const handleQuery = (event) => {
+		// async
+		const newQuery = event.target.value
+		setQuery(newQuery)
+	}
+
 	// Se ejecuta cada vez que se renderiza el componente
 	// Peculiaridad del async/await
 	useEffect(() => {
@@ -77,6 +91,8 @@ function App({ params }) {
 	}, [keyword]) // No tiene dependencias este efecto, es decir, solo se va a ejecutar una vez, no depende de nada
 	// Podriamos tener una dependencia keyword, cada vez que cambie, volver a ejecutar el efecto
 
+	console.log('render')
+
 	return (
 		<GifContext.Provider value={handleRemove}>
 			<div>
@@ -87,6 +103,11 @@ function App({ params }) {
 					<input placeholder='Filter by tittle' onChange={(e) => {
 						setFilterTitle(e.target.value)
 					}} />
+					<form onSubmit={handleSubmit}>
+						<input onChange={handleQuery} value={query} name='query' placeholder='Filter by controlled' />
+						<button type='submit'>Search</button>
+					</form>
+					{error && <p style={{ color: '#AA3939' }}>{error}</p>}
 				</header>
 				<section>
 
