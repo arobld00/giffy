@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState, useCallback } from 'react'
 import { useQuery } from './hooks/useQuery'
 import './App.css'
 import getGifs from './services/getGifs'
 import GifList from './components/GifList'
+import debounce from 'just-debounce-it'
 
 export const GifContext = React.createContext('');
 
@@ -63,6 +64,12 @@ function App({ params }) {
 		setSorting(sort)
 	}
 
+	const debouncedSetQuery = useCallback(
+		debounce(newQuery => {
+			console.log('query', newQuery)
+		}, 300)
+		, [])
+
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		console.log({ query })
@@ -72,6 +79,7 @@ function App({ params }) {
 		// async
 		const newQuery = event.target.value
 		setQuery(newQuery)
+		debouncedSetQuery(newQuery)
 	}
 
 	// Se ejecuta cada vez que se renderiza el componente
