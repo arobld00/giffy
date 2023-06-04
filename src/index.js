@@ -5,6 +5,7 @@ import Home from './Home';
 import App from './App';
 import About from './About';
 //import { Route } from 'wouter'
+import { Route } from './Route'
 import { Router } from './components/Router'
 import reportWebVitals from './reportWebVitals';
 
@@ -20,20 +21,11 @@ ReactDOM.render(
 */
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Router routers={[
-    {
-      path: "/",
-      Component: Home
-    },
-    {
-      path: "/gifs/:keyword",
-      Component: App
-    },
-    {
-      path: "/about",
-      Component: About
-    }
-  ]} />
+  <Router routers={[{ path: "/gifs/:keyword", Component: App }
+  ]}>
+    <Route path='/' Component={Home}></Route>
+    <Route path='/about' Component={About}></Route>
+  </Router>
 )
 
 // If you want to start measuring performance in your app, pass a function
