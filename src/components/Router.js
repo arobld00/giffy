@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { match } from 'path-to-regexp'
 
 export const EVENTS = {
   PUSHSTATE: 'pushstate',
@@ -23,6 +24,17 @@ export function Router({ routers = [], defaultComponent: DefaultComponent = () =
     }
   }, [])
 
-  const Page = routers.find(({ path }) =>  path === currentPath)?.Component
-  return Page ? <Page /> : <DefaultComponent />
+  let routeParams = {}
+
+  const Page = routers.find(({ path }) => {
+    if (path === currentPath) return true
+
+    const matcher = match(path, { decode: decodeURIComponent })
+    const matched = matcher(currentPath)
+    if (!matched) return false
+
+    routeParams = matched.params
+    return true
+  })?.Component
+  return Page ? <Page params={routeParams} /> : <DefaultComponent />
 }
