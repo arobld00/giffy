@@ -87,7 +87,6 @@ function App({ params }) {
 	useEffect(() => {
 		(async () => {
 			try {
-				console.log('gifssss')
 				setGifs(actualGifs => ({ isLoading: true, results: actualGifs.results }))
 
 				const gifs = await getGifs({ keyword })
