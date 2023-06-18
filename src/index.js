@@ -6,6 +6,8 @@ import { Route } from './Route'
 import { Router } from './components/Router'
 import reportWebVitals from './reportWebVitals';
 
+import './i18next'
+
 const Home = lazy(() => import('./Home'))
 const App = lazy(() => import('./App'))
 const About = lazy(() => import('./About')) // dynamic import
@@ -23,7 +25,7 @@ ReactDOM.render(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Suspense fallback={<div>Loading...</div>}>
-    <Router routers={[{ path: "/gifs/:keyword", Component: App }]}>
+    <Router routers={[{ path: "/gifs/:keyword", Component: App }, { path: "/about/:lng", Component: About }]}>
       <Route path='/' Component={Home}></Route>
       <Route path='/about' Component={About}></Route>
     </Router>
